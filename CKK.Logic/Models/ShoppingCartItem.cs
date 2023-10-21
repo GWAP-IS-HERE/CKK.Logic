@@ -1,11 +1,9 @@
 ﻿namespace CKK.Logic.Models
 {
-    internal class ShoppingCartItem
+    public class ShoppingCartItem
     {
         private Product product;
         private int quantity;
-
-        public ShoppingCartItem() { }
 
         public ShoppingCartItem(Product productIn, int quantityIn)
         {

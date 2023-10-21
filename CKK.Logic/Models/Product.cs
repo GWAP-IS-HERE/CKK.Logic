@@ -1,12 +1,10 @@
 ﻿namespace CKK.Logic.Models
 {
-    internal class Product
+    public class Product
     {
         private int id;
-        private string name;
+        private string name = "";
         private decimal price;
-
-        Product() { }
 
         public int GetId()
         {

@@ -1,14 +1,12 @@
 ﻿namespace CKK.Logic.Models
 {
-    internal class Customer
+    public class Customer
     {
         private int id;
-        private string name;
-        private string address;
+        private string name = "";
+        private string address = "";
 
-        Customer() { }
-
-        public int GetID()
+        public int GetId()
         {
             return id;
         }
