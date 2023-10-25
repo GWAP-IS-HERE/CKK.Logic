@@ -30,5 +30,10 @@
         {
             product = productIn;
         }
+
+        public decimal GetTotal()
+        {
+            return (decimal)quantity * product.GetPrice();
+        }
     }
 }
