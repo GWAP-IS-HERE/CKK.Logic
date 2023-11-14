@@ -38,18 +38,22 @@
             return AddProduct(prod, 1);
         }
         */
-        public ShoppingCartItem? RemoveProduct(Product prod, int quantity)
+        public ShoppingCartItem RemoveProduct(int prodId, int quantity)
         {
+            quantity = abs(quantity);
             if (quantity > 0)
             {
                 for (int ctr = 0; ctr < Products.Count(); ctr++)
                 {
-                    if (Products.ElementAt(ctr).GetProduct().GetId() == prod.GetId())
+                    if (Products.ElementAt(ctr).GetProduct().GetId() == prodId)
                     {
                         if (quantity >= Products.ElementAt(ctr).GetQuantity())
                         {
                             Products.RemoveAt(ctr);
-                            return null;
+                            Product tempP = new Product();
+                            tempP.SetId(prodId);
+                            ShoppingCartItem temp = new ShoppingCartItem(tempP, 0);
+                            return temp;
                         }
                         else
                         {
@@ -64,11 +68,13 @@
 
         public ShoppingCartItem? GetProductById(int id)
         {
-            foreach (ShoppingCartItem value in Products)
-            {
-                if (value.GetProduct().GetId() == id)
-                    return value;
-            }
+            var myList =
+                from item in Products
+                where (item.GetProduct().GetId() == id)
+                select item;
+
+            if (myList.Any())
+                return myList.ElementAt(0);
 
             return null;
         }
@@ -86,6 +92,11 @@
         public List<ShoppingCartItem> GetProducts()
         {
             return Products;
+        }
+
+        private int abs(int input)
+        {
+            return input & 0x7FFFFFFF;
         }
     }
 }

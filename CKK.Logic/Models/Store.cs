@@ -26,8 +26,23 @@
             Name = NameIn;
         }
 
-        public StoreItem AddStoreItem(Product productIn, int quantityIn)
+        public StoreItem? AddStoreItem(Product productIn, int quantityIn)
         {
+            if (quantityIn <= 0)
+            {
+                return null;
+            }
+            var myList =
+                from item in Items
+                where (productIn.GetId() == item.GetProduct().GetId())
+                select item;
+
+            if (myList.Any())
+            {
+                myList.ElementAt(0).SetQuantity(myList.ElementAt(0).GetQuantity() + quantityIn);
+                return myList.ElementAt(0);
+            }
+            /*
             foreach (StoreItem value in Items)
             {
                 if (productIn.GetId() == value.GetProduct().GetId())
@@ -35,7 +50,7 @@
                     value.SetQuantity(value.GetQuantity() + quantityIn);
                     return value;
                 }
-            }
+            }*/
             //If the value isn't found, add a new one
             Items.Add(new StoreItem(productIn, quantityIn));
             return Items.Last();
@@ -59,13 +74,14 @@
 
         public StoreItem? FindStoreItemById(int idIn)
         {
-            foreach(StoreItem value in Items)
-            {
-                if (idIn == value.GetProduct().GetId())
-                {
-                    return value;
-                }
-            }
+            var myList =
+                from item in Items
+                where (idIn == item.GetProduct().GetId())
+                select item;
+
+            if (myList.Any())
+                return myList.ElementAt(0);
+            
             return null;
         }
 
