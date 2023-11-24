@@ -1,32 +1,34 @@
-﻿namespace CKK.Logic.Models
+﻿using CKK.Logic.Interfaces;
+
+namespace CKK.Logic.Models
 {
-    public class Customer
+    public class Customer : Entity
     {
-        private int id;
-        private string name = "";
-        private string address = "";
+        private string Address { get; set; } = "";
 
-        public int GetId()
+
+        /* No longer necessary
+        public int Id
         {
-            return id;
+            return Id;
         }
 
-        public void SetId(int idIn)
+        public void SetId(int IdIn)
         {
-            id = idIn;
+            Id = IdIn;
         }
 
-        public string GetName()
+        public string Name
         {
-            return name;
+            return Name;
         }
 
         public void SetName(string nameIn)
         {
-            name = nameIn;
+            Name = nameIn;
         }
 
-        public string GetAddress()
+        public string Address
         {
             return address;
         }
@@ -34,6 +36,6 @@
         public void SetAddress(string addressIn)
         {
             address = addressIn;
-        }
+        }*/
     }
 }

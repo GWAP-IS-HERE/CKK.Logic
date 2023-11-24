@@ -1,12 +1,13 @@
-﻿namespace CKK.Logic.Models
+﻿using CKK.Logic.Interfaces;
+
+namespace CKK.Logic.Models
 {
-    public class Store
+    public class Store : Entity
     {
-        private int Id;
-        private string Name = "";
         private List<StoreItem> Items = new List<StoreItem>();
 
-        public int GetId()
+        /*
+        public int Id
         {
             return Id;
         }
@@ -16,7 +17,7 @@
             Id = IdIn;
         }
 
-        public string GetName()
+        public string Name
         {
             return Name;
         }
@@ -24,7 +25,7 @@
         public void SetName(string NameIn)
         {
             Name = NameIn;
-        }
+        }*/
 
         public StoreItem? AddStoreItem(Product productIn, int quantityIn)
         {
@@ -34,18 +35,18 @@
             }
             var myList =
                 from item in Items
-                where (productIn.GetId() == item.GetProduct().GetId())
+                where (productIn.Id == item.Prod.Id)
                 select item;
 
             if (myList.Any())
             {
-                myList.ElementAt(0).SetQuantity(myList.ElementAt(0).GetQuantity() + quantityIn);
+                myList.ElementAt(0).Quantity += quantityIn;
                 return myList.ElementAt(0);
             }
             /*
             foreach (StoreItem value in Items)
             {
-                if (productIn.GetId() == value.GetProduct().GetId())
+                if (productIn.Id == value.GetProduct().Id)
                 {
                     value.SetQuantity(value.GetQuantity() + quantityIn);
                     return value;
@@ -60,12 +61,12 @@
         {
             foreach (StoreItem value in Items)
             {
-                if (idIn == value.GetProduct().GetId())
+                if (idIn == value.Prod.Id)
                 {
-                    if (quantityIn >= value.GetQuantity())
-                        value.SetQuantity(0);
+                    if (quantityIn >= value.Quantity)
+                        value.Quantity = 0;
                     else
-                        value.SetQuantity(value.GetQuantity() - quantityIn);
+                        value.Quantity -= quantityIn;
                     return value;
                 }
             }
@@ -76,7 +77,7 @@
         {
             var myList =
                 from item in Items
-                where (idIn == item.GetProduct().GetId())
+                where (idIn == item.Prod.Id)
                 select item;
 
             if (myList.Any())

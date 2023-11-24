@@ -2,18 +2,15 @@
 {
     public class ShoppingCart
     {
-        private Customer Customer;
-        List<ShoppingCartItem> Products = new List<ShoppingCartItem>();
+        private Customer Customer { get; set; }
+        public List<ShoppingCartItem> Products { get; set; } = new List<ShoppingCartItem>();
 
         public ShoppingCart(Customer customer)
         {
             Customer = customer;
         }
 
-        public int GetCustomerID()
-        {
-            return Customer.GetId();
-        }
+        
 
         public ShoppingCartItem? AddProduct(Product prod, int quantity)
         {
@@ -21,9 +18,9 @@
             {
                 foreach (ShoppingCartItem value in Products)
                 {
-                    if (value.GetProduct().GetId() == prod.GetId())
+                    if (value.Prod.Id == prod.Id)
                     {
-                        value.SetQuantity(value.GetQuantity() + quantity);
+                        value.Quantity +=  quantity;
                         return value;
                     }
                 }
@@ -32,32 +29,32 @@
             }
             return null;
         }
-        /*
+
         public ShoppingCartItem? AddProduct(Product prod)
         {
             return AddProduct(prod, 1);
         }
-        */
-        public ShoppingCartItem RemoveProduct(int prodId, int quantity)
+
+        public ShoppingCartItem? RemoveProduct(int prodId, int quantity)
         {
             quantity = abs(quantity);
             if (quantity > 0)
             {
                 for (int ctr = 0; ctr < Products.Count(); ctr++)
                 {
-                    if (Products.ElementAt(ctr).GetProduct().GetId() == prodId)
+                    if (Products.ElementAt(ctr).Prod.Id == prodId)
                     {
-                        if (quantity >= Products.ElementAt(ctr).GetQuantity())
+                        if (quantity >= Products.ElementAt(ctr).Quantity)
                         {
                             Products.RemoveAt(ctr);
                             Product tempP = new Product();
-                            tempP.SetId(prodId);
+                            tempP.Id = prodId;
                             ShoppingCartItem temp = new ShoppingCartItem(tempP, 0);
                             return temp;
                         }
                         else
                         {
-                            Products.ElementAt(ctr).SetQuantity(Products.ElementAt(ctr).GetQuantity() - quantity);
+                            Products.ElementAt(ctr).Quantity -= quantity;
                             return Products.ElementAt(ctr);
                         }
                     }
@@ -70,7 +67,7 @@
         {
             var myList =
                 from item in Products
-                where (item.GetProduct().GetId() == id)
+                where (item.Prod.Id == id)
                 select item;
 
             if (myList.Any())
@@ -89,14 +86,20 @@
             return total;
         }
 
+        private static int abs(int input)
+        {
+            return input & 0x7FFFFFFF;
+        }
+
+        /*
         public List<ShoppingCartItem> GetProducts()
         {
             return Products;
         }
 
-        private int abs(int input)
+        public int GetCustomerID()
         {
-            return input & 0x7FFFFFFF;
-        }
+            return Customer.Id;
+        }*/
     }
 }

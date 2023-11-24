@@ -1,32 +1,33 @@
-﻿namespace CKK.Logic.Models
+﻿using CKK.Logic.Interfaces;
+
+namespace CKK.Logic.Models
 {
-    public class Product
+    public class Product : Entity
     {
-        private int id;
-        private string name = "";
-        private decimal price;
+        public decimal Price { get; set; }
 
-        public int GetId()
+        /* No longer necessary
+        public int Id
         {
-            return id;
+            return Id;
         }
 
-        public void SetId(int idIn)
+        public void SetId(int IdIn)
         {
-            id = idIn;
+            Id = IdIn;
         }
 
-        public string GetName()
+        public string Name
         {
-            return name;
+            return Name;
         }
 
-        public void SetName(string nameIn)
+        public void SetName(string NameIn)
         {
-            name = nameIn;
+            Name = NameIn;
         }
 
-        public decimal GetPrice()
+        public decimal Price
         {
             return price;
         }
@@ -34,6 +35,6 @@
         public void SetPrice(decimal priceIn)
         {
             price = priceIn;
-        }
+        }*/
     }
 }

@@ -12,15 +12,15 @@ namespace TestProject1
             Product prod = new Product();
 
             int expected = 42;
-            prod.SetId(expected);
+            prod.Id = expected;
             test.AddProduct(prod);
             ShoppingCartItem? cartItem = test.GetProductById(expected);
             Product? prod2;
             if (cartItem != null)
             {
-                prod2 = cartItem.GetProduct();
-                Assert.Equal(prod2.GetId(), expected);
-                Assert.Equal(1, cartItem.GetQuantity());
+                prod2 = cartItem.Prod;
+                Assert.Equal(prod2.Id, expected);
+                Assert.Equal(1, cartItem.Quantity);
             }
             else
                 Assert.Fail("ShoppingCartItem returned is null!");
@@ -37,15 +37,15 @@ namespace TestProject1
             Product prod = new Product();
 
             int expected = 42;
-            prod.SetId(expected);
+            prod.Id = expected;
             test.AddProduct(prod, input);
             ShoppingCartItem? cartItem = test.GetProductById(expected);
             Product? prod2;
             if (cartItem != null)
             {
-                prod2 = cartItem.GetProduct();
-                Assert.Equal(prod2.GetId(), expected);
-                Assert.Equal(input, cartItem.GetQuantity());
+                prod2 = cartItem.Prod;
+                Assert.Equal(prod2.Id, expected);
+                Assert.Equal(input, cartItem.Quantity);
             }
             else
                 Assert.Fail("ShoppingCartItem returned is null!");
@@ -63,21 +63,21 @@ namespace TestProject1
             int expected = 40;
             int expected2 = 38;
             int expected3 = 7;
-            prod.SetId(expected);
+            prod.Id = expected;
             test.AddProduct(prod);
 
-            prod2.SetId(expected2);
+            prod2.Id = expected2;
             test.AddProduct(prod2);
 
-            prod3.SetId(expected3);
+            prod3.Id = expected3;
             test.AddProduct(prod3);
 
             Product? tProd;
             ShoppingCartItem? cartItem = test.GetProductById(expected);
             if (cartItem != null)
             {
-                tProd = cartItem.GetProduct();
-                Assert.Equal(tProd.GetId(), expected);
+                tProd = cartItem.Prod;
+                Assert.Equal(tProd.Id, expected);
             }
             else
                 Assert.Fail("ShoppingCartItem (1st) returned is null!");
@@ -85,8 +85,8 @@ namespace TestProject1
             cartItem = test.GetProductById(expected2);
             if (cartItem != null)
             {
-                tProd = cartItem.GetProduct();
-                Assert.Equal(tProd.GetId(), expected2);
+                tProd = cartItem.Prod;
+                Assert.Equal(tProd.Id, expected2);
             }
             else
                 Assert.Fail("ShoppingCartItem (2nd) returned is null!");
@@ -94,8 +94,8 @@ namespace TestProject1
             cartItem = test.GetProductById(expected3);
             if (cartItem != null)
             {
-                tProd = cartItem.GetProduct();
-                Assert.Equal(tProd.GetId(), expected3);
+                tProd = cartItem.Prod;
+                Assert.Equal(tProd.Id, expected3);
             }
             else
                 Assert.Fail("ShoppingCartItem (3rd) returned is null!");
@@ -109,10 +109,10 @@ namespace TestProject1
             Product prod = new Product();
 
             int expected = 42;
-            prod.SetId(expected);
+            prod.Id = expected;
             test.AddProduct(prod);
 
-            test.RemoveProduct(prod, 1);
+            test.RemoveProduct(prod.Id, 1);
             ShoppingCartItem? cartItem = test.GetProductById(expected);
             if (cartItem != null)
                 Assert.Fail("Item wasn't properly removed!");
@@ -136,16 +136,16 @@ namespace TestProject1
             decimal price2 = 20m;
             decimal price3 = 30m;
 
-            prod.SetId(id1);
-            prod.SetPrice(price1);
+            prod.Id = id1;
+            prod.Price = price1;
             test.AddProduct(prod, 5);
 
-            prod2.SetId(id2);
-            prod2.SetPrice(price2);
+            prod2.Id = id2;
+            prod2.Price = price2;
             test.AddProduct(prod2, 12);
 
-            prod3.SetId(id3);
-            prod3.SetPrice(price3);
+            prod3.Id = id3;
+            prod3.Price = price3;
             test.AddProduct(prod3, 3);
 
             Assert.Equal(test.GetTotal(), 380);
@@ -164,29 +164,29 @@ namespace TestProject1
             int id2 = 38;
             int id3 = 7;
 
-            prod.SetId(id1);
+            prod.Id = id1;
             test.AddProduct(prod, 5);
 
-            prod2.SetId(id2);
+            prod2.Id = id2;
             test.AddProduct(prod2, 12);
 
-            prod3.SetId(id3);
+            prod3.Id = id3;
             test.AddProduct(prod3, 3);
 
             ShoppingCartItem? testS = null;
             Product? testP = null;
 
-            testS = test.GetProduct(1);
-            testP = testS.GetProduct();
-            Assert.Equal(id1, testP.GetId());
+            testS = test.Products.ElementAt(0);
+            testP = testS.Prod;
+            Assert.Equal(id1, testP.Id);
 
-            testS = test.GetProduct(2);
-            testP = testS.GetProduct();
-            Assert.Equal(id2, testP.GetId());
+            testS = test.Products.ElementAt(1);
+            testP = testS.Prod;
+            Assert.Equal(id2, testP.Id);
 
-            testS = test.GetProduct(3);
-            testP = testS.GetProduct();
-            Assert.Equal(id3, testP.GetId());
+            testS = test.Products.ElementAt(2);
+            testP = testS.Prod;
+            Assert.Equal(id3, testP.Id);
         }
     }
 }

@@ -1,16 +1,19 @@
-﻿namespace CKK.Logic.Models
-{
-    public class ShoppingCartItem
-    {
-        private Product product;
-        private int quantity;
+﻿using CKK.Logic.Interfaces;
 
-        public ShoppingCartItem(Product productIn, int quantityIn)
+namespace CKK.Logic.Models
+{
+    public class ShoppingCartItem : InventoryItem
+    {
+
+        public ShoppingCartItem(Product productIn, int quantityIn) : base(productIn, quantityIn)
+        {}
+
+        public decimal GetTotal()
         {
-            product = productIn;
-            quantity = quantityIn;
+            return (decimal)Quantity * Prod.Price;
         }
 
+        /* No longer necessary
         public int GetQuantity()
         {
             return quantity;
@@ -29,11 +32,6 @@
         public void SetProduct(Product productIn)
         {
             product = productIn;
-        }
-
-        public decimal GetTotal()
-        {
-            return (decimal)quantity * product.GetPrice();
-        }
+        }*/
     }
 }
