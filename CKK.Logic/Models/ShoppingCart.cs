@@ -1,6 +1,8 @@
-﻿namespace CKK.Logic.Models
+﻿using CKK.Logic.Interfaces;
+
+namespace CKK.Logic.Models
 {
-    public class ShoppingCart
+    public class ShoppingCart : IShoppingCart
     {
         private Customer Customer { get; set; }
         public List<ShoppingCartItem> Products { get; set; } = new List<ShoppingCartItem>();
@@ -91,15 +93,14 @@
             return input & 0x7FFFFFFF;
         }
 
-        /*
         public List<ShoppingCartItem> GetProducts()
         {
             return Products;
         }
-
+        
         public int GetCustomerID()
         {
             return Customer.Id;
-        }*/
+        }
     }
 }
