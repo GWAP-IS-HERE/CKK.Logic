@@ -1,16 +1,43 @@
 ﻿using CKK.Logic.Models;
+using CKK.Logic.Exceptions;
 
 namespace CKK.Logic.Interfaces
 {
     public abstract class InventoryItem
     {
-        public Product Prod { get; set; }
-        public int Quantity { get; set; }
+        private Product prod;
+        private int quantity { get; set; }
 
         public InventoryItem(Product productIn, int quantityIn)
         {
-            Prod = productIn;
+            prod = productIn;
             Quantity = quantityIn;
+        }
+
+        public Product Prod
+        {
+            get
+            {
+                return prod;
+            }
+            set
+            {
+                prod = value;
+            }
+        }
+
+        public int Quantity
+        {
+            get
+            {
+                return quantity;
+            }
+            set
+            {
+                if (value < 0)
+                    throw new InventoryItemStockTooLowException();
+                quantity = value;
+            }
         }
     }
 }

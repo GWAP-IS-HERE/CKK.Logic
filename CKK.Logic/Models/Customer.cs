@@ -4,7 +4,7 @@ namespace CKK.Logic.Models
 {
     public class Customer : Entity
     {
-        private string Address { get; set; } = "";
+        public string Address { get; set; } = "";
 
 
         /* No longer necessary

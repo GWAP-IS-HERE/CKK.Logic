@@ -13,6 +13,18 @@ namespace CKK.Logic.Models
             return (decimal)Quantity * Prod.Price;
         }
 
+        public Product Product
+        {
+            get
+            {
+                return base.Prod;
+            }
+            set
+            {
+                base.Prod = value;
+            }
+        }
+
         /* No longer necessary
         public int GetQuantity()
         {

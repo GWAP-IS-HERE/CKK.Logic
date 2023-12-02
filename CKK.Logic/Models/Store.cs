@@ -1,4 +1,5 @@
 ﻿using CKK.Logic.Interfaces;
+using CKK.Logic.Exceptions;
 
 namespace CKK.Logic.Models
 {
@@ -31,7 +32,7 @@ namespace CKK.Logic.Models
         {
             if (quantityIn <= 0)
             {
-                return null;
+                throw new InventoryItemStockTooLowException();
             }
             var myList =
                 from item in Items
@@ -59,6 +60,8 @@ namespace CKK.Logic.Models
 
         public StoreItem? RemoveStoreItem(int idIn, int quantityIn)
         {
+            if (quantityIn < 0)
+                throw new ArgumentOutOfRangeException();
             foreach (StoreItem value in Items)
             {
                 if (idIn == value.Prod.Id)
@@ -70,11 +73,13 @@ namespace CKK.Logic.Models
                     return value;
                 }
             }
-            return null;
+            throw new ProductDoesNotExistException();
         }
 
         public StoreItem? FindStoreItemById(int idIn)
         {
+            if (idIn < 0)
+                throw new InvalidIdException();
             var myList =
                 from item in Items
                 where (idIn == item.Prod.Id)

@@ -8,6 +8,19 @@ namespace CKK.Logic.Models
         public StoreItem(Product productIn, int quantityIn) : base(productIn, quantityIn)
         {}
 
+        public Product Product
+        {
+            get
+            {
+                return base.Prod;
+            }
+            set
+            {
+                base.Prod = value;
+            }
+        }
+            
+
         /* No longer necessary
         public int GetQuantity()
         {

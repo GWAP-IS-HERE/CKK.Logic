@@ -1,4 +1,5 @@
 ﻿using CKK.Logic.Interfaces;
+using CKK.Logic.Exceptions;
 
 namespace CKK.Logic.Models
 {
@@ -16,20 +17,18 @@ namespace CKK.Logic.Models
 
         public ShoppingCartItem? AddProduct(Product prod, int quantity)
         {
-            if (quantity > 0)
+            if (!(quantity > 0))
+                throw new InventoryItemStockTooLowException();
+            foreach (ShoppingCartItem value in Products)
             {
-                foreach (ShoppingCartItem value in Products)
+                if (value.Prod.Id == prod.Id)
                 {
-                    if (value.Prod.Id == prod.Id)
-                    {
-                        value.Quantity +=  quantity;
-                        return value;
-                    }
+                    value.Quantity +=  quantity;
+                    return value;
                 }
-                Products.Add(new ShoppingCartItem(prod, quantity));
-                return Products.Last();
             }
-            return null;
+            Products.Add(new ShoppingCartItem(prod, quantity));
+            return Products.Last();
         }
 
         public ShoppingCartItem? AddProduct(Product prod)
@@ -39,34 +38,35 @@ namespace CKK.Logic.Models
 
         public ShoppingCartItem? RemoveProduct(int prodId, int quantity)
         {
-            quantity = abs(quantity);
-            if (quantity > 0)
+            if (quantity < 0)
+                throw new ArgumentOutOfRangeException();
+
+            for (int ctr = 0; ctr < Products.Count(); ctr++)
             {
-                for (int ctr = 0; ctr < Products.Count(); ctr++)
+                if (Products.ElementAt(ctr).Prod.Id == prodId)
                 {
-                    if (Products.ElementAt(ctr).Prod.Id == prodId)
+                    if (quantity >= Products.ElementAt(ctr).Quantity)
                     {
-                        if (quantity >= Products.ElementAt(ctr).Quantity)
-                        {
-                            Products.RemoveAt(ctr);
-                            Product tempP = new Product();
-                            tempP.Id = prodId;
-                            ShoppingCartItem temp = new ShoppingCartItem(tempP, 0);
-                            return temp;
-                        }
-                        else
-                        {
-                            Products.ElementAt(ctr).Quantity -= quantity;
-                            return Products.ElementAt(ctr);
-                        }
+                        Products.RemoveAt(ctr);
+                        Product tempP = new Product();
+                        tempP.Id = prodId;
+                        ShoppingCartItem temp = new ShoppingCartItem(tempP, 0);
+                        return temp;
+                    }
+                    else
+                    {
+                        Products.ElementAt(ctr).Quantity -= quantity;
+                        return Products.ElementAt(ctr);
                     }
                 }
             }
-            return null;
+            throw new ProductDoesNotExistException();
         }
 
         public ShoppingCartItem? GetProductById(int id)
         {
+            if (id < 0)
+                throw new InvalidIdException();
             var myList =
                 from item in Products
                 where (item.Prod.Id == id)
