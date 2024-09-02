@@ -1,5 +1,6 @@
 ﻿namespace CKK.Logic.Exceptions
 {
+    [Serializable]
     public class InvalidIdException : Exception
     {
         string errMsg;

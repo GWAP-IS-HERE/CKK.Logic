@@ -1,5 +1,6 @@
 ﻿namespace CKK.Logic.Exceptions
 {
+    [Serializable]
     public class ProductDoesNotExistException : Exception
     {
         string errMsg;

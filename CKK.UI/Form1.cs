@@ -1,11 +1,13 @@
 using CKK.Logic.Models;
 using CKK.Logic.Interfaces;
+using CKK.Persistance.Interfaces;
+using CKK.Persistance.Models;
 
 namespace CKK.UI
 {
     public partial class Form1 : Form
     {
-        private IStore store;
+        private FileStore store;
         private int index = 0;
         bool editMode = false;
         public Form1()
@@ -15,25 +17,10 @@ namespace CKK.UI
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            store = new Store();
-            Product temp1 = new Product();
-            Product temp2 = new Product();
-            Product temp3 = new Product();
-            temp1.Id = 1;
-            temp1.Price = 2.49M;
-            temp1.Name = "prod1";
-            store.AddStoreItem(temp1, 1);
-            temp2.Id = 2;
-            temp2.Price = 6.99M;
-            temp2.Name = "prod2";
-            store.AddStoreItem(temp2, 2);
-            temp3.Id = 3;
-            temp3.Price = 16.54M;
-            temp3.Name = "prod3";
-            store.AddStoreItem(temp3, 3);
-            if (store.GetStoreItems().Count() > 0)
-                updateInputs(store.GetStoreItems().ElementAt(index));
-            updateIndex();
+            store = new FileStore();
+            store.Load();
+
+            updateInputs();
         }
 
         private void previousButton_Click(object sender, EventArgs e)
@@ -43,9 +30,8 @@ namespace CKK.UI
 
             if (index >= store.GetStoreItems().Count())
                 index = store.GetStoreItems().Count() - 1;
-            if (store.GetStoreItems().Count() > 0)
-                updateInputs(store.GetStoreItems().ElementAt(index));
-            updateIndex();
+            
+            updateInputs();
         }
 
         private void nextButton_Click(object sender, EventArgs e)
@@ -56,9 +42,7 @@ namespace CKK.UI
             if (index >= store.GetStoreItems().Count())
                 index = store.GetStoreItems().Count() - 1;
 
-            if (store.GetStoreItems().Count() > 0)
-                updateInputs(store.GetStoreItems().ElementAt(index));
-            updateIndex();
+            updateInputs();
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
@@ -66,6 +50,8 @@ namespace CKK.UI
             store.DeleteStoreItem(store.GetStoreItems().ElementAt(index).Prod.Id);
             if (index > 0)
                 index--;
+            store.Save();
+            updateInputs();
         }
 
         private void editButton_Click(object sender, EventArgs e)
@@ -87,6 +73,7 @@ namespace CKK.UI
                 store.GetStoreItems().ElementAt(index).Prod.Name = nameOutput.Text;
                 store.GetStoreItems().ElementAt(index).Prod.Price = Convert.ToDecimal(priceOutput.Text);
                 store.GetStoreItems().ElementAt(index).Quantity = Convert.ToInt32(quantityOutput.Text);
+                store.Save();
             }
             else
             {
@@ -105,11 +92,23 @@ namespace CKK.UI
             }
         }
 
-        private void updateInputs(StoreItem storeItem)
+        private void updateInputs()
         {
-            nameOutput.Text = storeItem.Product.Name;
-            priceOutput.Text = Convert.ToString(storeItem.Product.Price);
-            quantityOutput.Text = Convert.ToString(storeItem.Quantity);
+            if (store.GetStoreItems().Count() > 0)
+            {
+                StoreItem storeItem = store.GetStoreItems().ElementAt(index);
+                nameOutput.Text = storeItem.Product.Name;
+                priceOutput.Text = Convert.ToString(storeItem.Product.Price);
+                quantityOutput.Text = Convert.ToString(storeItem.Quantity);
+                positionIndicator.Text = Convert.ToString(index + 1) + "/" + Convert.ToString(store.GetStoreItems().Count());
+            }
+            else
+            {
+                nameOutput.Text = "";
+                priceOutput.Text = "";
+                quantityOutput.Text = "";
+                positionIndicator.Text = "N/A";
+            }
         }
 
         private bool validateEdit()
@@ -126,11 +125,6 @@ namespace CKK.UI
             }
         }
 
-        private void updateIndex()
-        {
-            positionIndicator.Text = Convert.ToString(index + 1) + "/" + Convert.ToString(store.GetStoreItems().Count());
-        }
-
         private void addButton_Click(object sender, EventArgs e)
         {
             try
@@ -140,9 +134,11 @@ namespace CKK.UI
                 temp.Name = nameInput.Text;
                 temp.Price = Convert.ToDecimal(priceInput.Text);
                 store.AddStoreItem(temp, Convert.ToInt32(quantityInput.Text));
-                if (store.GetStoreItems().Count() > 0)
-                    updateInputs(store.GetStoreItems().ElementAt(index));
-                updateIndex();
+                updateInputs();
+                store.Save();
+                nameInput.Text = "";
+                priceInput.Text = "";
+                quantityInput.Text = "";
             }
             catch { }
         }
