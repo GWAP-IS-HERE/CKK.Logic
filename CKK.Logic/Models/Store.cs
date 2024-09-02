@@ -30,6 +30,18 @@ namespace CKK.Logic.Models
 
         public StoreItem? AddStoreItem(Product productIn, int quantityIn)
         {
+            if (productIn.Id == 0) //if the product doesn't have an id
+            {
+                int tempId = 0;
+                foreach (var item in Items) //search the list for the highest id then add 1 to make the new highest id
+                {
+                    if (item.Product.Id >= tempId)
+                        tempId = item.Product.Id + 1;
+                }
+                Items.Add(new StoreItem(productIn, quantityIn)); //then add and return
+                return Items.Last();
+            }
+
             if (quantityIn <= 0)
             {
                 throw new InventoryItemStockTooLowException();
@@ -94,6 +106,18 @@ namespace CKK.Logic.Models
         public List<StoreItem> GetStoreItems()
         {
             return Items;
+        }
+
+        public void DeleteStoreItem(int idIn)
+        {
+            for (int ctr = 0; ctr < Items.Count(); ctr++)
+            {
+                if (Items[ctr].Prod.Id == idIn)
+                {
+                    Items.RemoveAt(ctr);
+                    return;
+                }
+            }
         }
     }
 }
