@@ -3,104 +3,16 @@ using CKK.Logic.Exceptions;
 
 namespace CKK.Logic.Models
 {
-    public class ShoppingCart : IShoppingCart
+    public class ShoppingCart
     {
-        private Customer Customer { get; set; }
-        public List<ShoppingCartItem> Products { get; set; } = new List<ShoppingCartItem>();
-
-        public ShoppingCart(Customer customer)
+        public ShoppingCart(Customer cust)
         {
-            Customer = customer;
+            Customer = cust;
         }
 
-        
-
-        public ShoppingCartItem? AddProduct(Product prod, int quantity)
-        {
-            if (!(quantity > 0))
-                throw new InventoryItemStockTooLowException();
-            foreach (ShoppingCartItem value in Products)
-            {
-                if (value.Prod.Id == prod.Id)
-                {
-                    value.Quantity +=  quantity;
-                    return value;
-                }
-            }
-            Products.Add(new ShoppingCartItem(prod, quantity));
-            return Products.Last();
-        }
-
-        public ShoppingCartItem? AddProduct(Product prod)
-        {
-            return AddProduct(prod, 1);
-        }
-
-        public ShoppingCartItem? RemoveProduct(int prodId, int quantity)
-        {
-            if (quantity < 0)
-                throw new ArgumentOutOfRangeException();
-
-            for (int ctr = 0; ctr < Products.Count(); ctr++)
-            {
-                if (Products.ElementAt(ctr).Prod.Id == prodId)
-                {
-                    if (quantity >= Products.ElementAt(ctr).Quantity)
-                    {
-                        Products.RemoveAt(ctr);
-                        Product tempP = new Product();
-                        tempP.Id = prodId;
-                        ShoppingCartItem temp = new ShoppingCartItem(tempP, 0);
-                        return temp;
-                    }
-                    else
-                    {
-                        Products.ElementAt(ctr).Quantity -= quantity;
-                        return Products.ElementAt(ctr);
-                    }
-                }
-            }
-            throw new ProductDoesNotExistException();
-        }
-
-        public ShoppingCartItem? GetProductById(int id)
-        {
-            if (id < 0)
-                throw new InvalidIdException();
-            var myList =
-                from item in Products
-                where (item.Prod.Id == id)
-                select item;
-
-            if (myList.Any())
-                return myList.ElementAt(0);
-
-            return null;
-        }
-
-        public decimal GetTotal()
-        {
-            decimal total = 0;
-            foreach (ShoppingCartItem value in Products)
-            {
-                total += value.GetTotal();
-            }
-            return total;
-        }
-
-        private static int abs(int input)
-        {
-            return input & 0x7FFFFFFF;
-        }
-
-        public List<ShoppingCartItem> GetProducts()
-        {
-            return Products;
-        }
-        
-        public int GetCustomerID()
-        {
-            return Customer.Id;
-        }
+        public int ShoppingCartId { get; set; }
+        public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
+        public List<ShoppingCartItem> ShoppingCartItems { get; set; } = new List<ShoppingCartItem>();
     }
 }
