@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CKK.UI", "CKK.UI\CKK.UI.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CKK.Persistance", "CKK.Persistance\CKK.Persistance.csproj", "{B12D3769-9633-475D-AA16-AEE659768D60}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CKK.DB", "CKK.DB\CKK.DB.csproj", "{F584A686-10C1-45EB-AA15-3A8C3EE3E662}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B12D3769-9633-475D-AA16-AEE659768D60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B12D3769-9633-475D-AA16-AEE659768D60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B12D3769-9633-475D-AA16-AEE659768D60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F584A686-10C1-45EB-AA15-3A8C3EE3E662}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F584A686-10C1-45EB-AA15-3A8C3EE3E662}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F584A686-10C1-45EB-AA15-3A8C3EE3E662}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F584A686-10C1-45EB-AA15-3A8C3EE3E662}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,50 +1,33 @@
 ﻿using CKK.Logic.Interfaces;
+using CKK.Logic.Exceptions;
 
 namespace CKK.Logic.Models
 {
     [Serializable]
     public class ShoppingCartItem : InventoryItem
     {
-
-        public ShoppingCartItem(Product productIn, int quantityIn) : base(productIn, quantityIn)
-        {}
-
-        public decimal GetTotal()
-        {
-            return (decimal)Quantity * Prod.Price;
-        }
-
-        public Product Product
+        public Product Product { get; set; }
+        public int ShoppingCartId { get; set; }
+        public int CustomerId { get; set; }
+        public int ProductId { get; set; }
+        private int quantity { get; set; }
+        public int Quantity
         {
             get
             {
-                return base.Prod;
+                return quantity;
             }
             set
             {
-                base.Prod = value;
+                if (value >= 0)
+                    quantity = value;
+                else
+                    throw new InventoryItemStockTooLowException();
             }
         }
-
-        /* No longer necessary
-        public int GetQuantity()
+        public decimal GetTotal()
         {
-            return quantity;
+            return Product.Price * Quantity;
         }
-
-        public void SetQuantity(int quantityIn)
-        {
-            quantity = quantityIn;
-        }
-
-        public Product GetProduct()
-        {
-            return product;
-        }
-
-        public void SetProduct(Product productIn)
-        {
-            product = productIn;
-        }*/
     }
 }
