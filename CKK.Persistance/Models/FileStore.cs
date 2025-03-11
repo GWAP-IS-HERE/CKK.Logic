@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using CKK.Logic.Exceptions;
 using System.Linq;
 
+/*
 namespace CKK.Persistance.Models
 {
     public class FileStore : IStore, ISavable, ILoadable
@@ -135,3 +136,4 @@ namespace CKK.Persistance.Models
         }
     }
 }
+*/

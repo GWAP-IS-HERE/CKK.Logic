@@ -1,9 +1,15 @@
-﻿using CKK.Logic.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CKK.Logic.Models;
 
 namespace CKK.DB.Interfaces
 {
-    interface IOrderRepository : IGenericRepository<Order>
+    public interface IOrderRepository : IgenericRepository<Order>
     {
+        //method to get order by customer id
         Order GetOrderByCustomerId(int id);
     }
 }

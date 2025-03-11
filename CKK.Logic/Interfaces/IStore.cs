@@ -1,5 +1,6 @@
 ﻿using CKK.Logic.Models;
 
+/*
 namespace CKK.Logic.Interfaces
 {
     public interface IStore
@@ -11,3 +12,4 @@ namespace CKK.Logic.Interfaces
         public void DeleteStoreItem(int idIn);
     }
 }
+*/

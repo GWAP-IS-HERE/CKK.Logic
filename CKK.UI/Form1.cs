@@ -1,122 +1,46 @@
 using CKK.Logic.Models;
-using CKK.Logic.Interfaces;
-using CKK.Persistance.Interfaces;
-using CKK.Persistance.Models;
+using CKK.DB.UOW;
+using CKK.DB.Interfaces;
 
 namespace CKK.UI
 {
     public partial class Form1 : Form
     {
-        private FileStore store;
-        private int index = 0;
-        bool editMode = false;
-        public Form1()
+        private CKK.DB.Interfaces.IUnitOfWork store;
+        private int currentProduct;
+        private List<Product> display;
+        public Form1(IUnitOfWork uow)
         {
             InitializeComponent();
+            store = uow;
+            currentProduct = -1;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void displayAll() //incomplete
         {
-            store = new FileStore();
-            store.Load();
-
-            updateInputs();
-        }
-
-        private void previousButton_Click(object sender, EventArgs e)
-        {
-            if (index > 0)
-                index--;
-
-            if (index >= store.GetStoreItems().Count())
-                index = store.GetStoreItems().Count() - 1;
-            
-            updateInputs();
-        }
-
-        private void nextButton_Click(object sender, EventArgs e)
-        {
-            if (index < store.GetStoreItems().Count())
-                index++;
-
-            if (index >= store.GetStoreItems().Count())
-                index = store.GetStoreItems().Count() - 1;
-
-            updateInputs();
-        }
-
-        private void deleteButton_Click(object sender, EventArgs e)
-        {
-            store.DeleteStoreItem(store.GetStoreItems().ElementAt(index).Prod.Id);
-            if (index > 0)
-                index--;
-            store.Save();
-            updateInputs();
-        }
-
-        private void editButton_Click(object sender, EventArgs e)
-        {
-            if (editMode && validateEdit())
+            displayBox.Items.Clear();
+            foreach (var item in store.Products.GetAll())
             {
-                //switch edit mode off
-                editMode = false;
-                nameOutput.Enabled = false; //disable editing boxes
-                priceOutput.Enabled = false;
-                quantityOutput.Enabled = false;
-
-                previousButton.Enabled = true; //enable other inputs
-                nextButton.Enabled = true;
-                searchButton.Enabled = true;
-                searchInput.Enabled = true;
-                addButton.Enabled = true;
-                editButton.Text = "edit";
-                store.GetStoreItems().ElementAt(index).Prod.Name = nameOutput.Text;
-                store.GetStoreItems().ElementAt(index).Prod.Price = Convert.ToDecimal(priceOutput.Text);
-                store.GetStoreItems().ElementAt(index).Quantity = Convert.ToInt32(quantityOutput.Text);
-                store.Save();
-            }
-            else
-            {
-                //switch edit mode on
-                editMode = true;
-                nameOutput.Enabled = true; //enable editing buttons
-                priceOutput.Enabled = true;
-                quantityOutput.Enabled = true;
-
-                previousButton.Enabled = false; //disable other inputs
-                nextButton.Enabled = false;
-                searchButton.Enabled = false;
-                searchInput.Enabled = false;
-                addButton.Enabled = false;
-                editButton.Text = "apply";
+                displayBox.Items.Add(item.Name);
             }
         }
 
-        private void updateInputs()
+        private void showInputInvalid()
         {
-            if (store.GetStoreItems().Count() > 0)
-            {
-                StoreItem storeItem = store.GetStoreItems().ElementAt(index);
-                nameOutput.Text = storeItem.Product.Name;
-                priceOutput.Text = Convert.ToString(storeItem.Product.Price);
-                quantityOutput.Text = Convert.ToString(storeItem.Quantity);
-                positionIndicator.Text = Convert.ToString(index + 1) + "/" + Convert.ToString(store.GetStoreItems().Count());
-            }
-            else
-            {
-                nameOutput.Text = "";
-                priceOutput.Text = "";
-                quantityOutput.Text = "";
-                positionIndicator.Text = "N/A";
-            }
+            inputInvalidPanel.Show();
         }
+        private void hideInputInvalid()
+        {
+            inputInvalidPanel.Hide();
+        }
+
 
         private bool validateEdit()
         {
             try
             {
-                Convert.ToDecimal(priceOutput.Text);
-                Convert.ToInt32(quantityOutput.Text);
+                Convert.ToDecimal(priceInput.Text);
+                Convert.ToInt32(quantityInput.Text);
                 return true;
             }
             catch
@@ -125,22 +49,139 @@ namespace CKK.UI
             }
         }
 
-        private void addButton_Click(object sender, EventArgs e)
+        private void applyButton_Click(object sender, EventArgs e)
         {
-            try
+            if (validateEdit() && currentProduct != -1 && (nameInput.Text == store.Products.GetById(currentProduct).Name || store.Products.GetByName(nameInput.Text).Count == 0))
             {
-                Product temp = new Product();
-                temp.Id = 0;
+                Product temp = store.Products.GetById(currentProduct);
                 temp.Name = nameInput.Text;
                 temp.Price = Convert.ToDecimal(priceInput.Text);
-                store.AddStoreItem(temp, Convert.ToInt32(quantityInput.Text));
-                updateInputs();
-                store.Save();
-                nameInput.Text = "";
-                priceInput.Text = "";
-                quantityInput.Text = "";
+                temp.Quantity = Convert.ToInt32(quantityInput.Text);
+                store.Products.Update(temp);
+                hideInputInvalid();
+                displayAll();
+                resetSelection();
             }
-            catch { }
+            else
+            {
+                showInputInvalid();
+            }
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            if (currentProduct != -1)
+            {
+                deletePanel.Show();
+                addButton.Enabled = false;
+                deleteButton.Enabled = false;
+                applyButton.Enabled = false;
+                searchButton.Enabled = false;
+                displayBox.Enabled = false;
+            }
+            hideInputInvalid();
+        }
+
+        private void searchButton_Click(object sender, EventArgs e)
+        {
+            displayBox.Items.Clear();
+            foreach (var item in store.Products.GetByName(searchInput.Text))
+            {
+                displayBox.Items.Add(item.Name);
+            }
+        }
+
+        private void deleteCancelButton_Click(object sender, EventArgs e)
+        {
+            deletePanel.Hide();
+            addButton.Enabled = true;
+            deleteButton.Enabled = true;
+            applyButton.Enabled = true;
+            searchButton.Enabled = true;
+            displayBox.Enabled = true;
+        }
+
+        private void deleteConfirmButton_Click(object sender, EventArgs e)
+        {
+            deletePanel.Hide();
+            addButton.Enabled = true;
+            deleteButton.Enabled = true;
+            applyButton.Enabled = true;
+            searchButton.Enabled = true;
+            displayBox.Enabled = true;
+            store.Products.Delete(currentProduct);
+            displayAll();
+            resetSelection();
+        }
+
+        private void addButton_Click(object sender, EventArgs e)
+        {
+
+            Product prod = new Product();
+            prod.Name = nameInput.Text;
+            if (validateEdit() && store.Products.GetByName(prod.Name).Count == 0)
+            {
+                prod.Quantity = Convert.ToInt32(quantityInput.Text);
+                prod.Price = Convert.ToDecimal(priceInput.Text);
+                store.Products.Add(prod);
+                hideInputInvalid();
+                resetSelection();
+            }
+            else
+            {
+                showInputInvalid();
+            }
+            displayAll();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            foreach (var item in store.Products.GetAll())
+            {
+                displayBox.Items.Add(item.Name);
+            }
+        }
+
+        private void resetSelection()
+        {
+            productIndicator.Text = "n/a";
+            currentProduct = -1;
+            nameInput.Text = "";
+            priceInput.Text = "";
+            quantityInput.Text = "";
+        }
+
+        private void setSelection(int input)
+        {
+            currentProduct = input;
+            productIndicator.Text = Convert.ToString(currentProduct);
+        }
+
+        private void fillInputBoxes()
+        {
+            if (currentProduct != -1)
+            {
+                Product temp = store.Products.GetById(currentProduct);
+                nameInput.Text = temp.Name;
+                priceInput.Text = Convert.ToString(temp.Price);
+                quantityInput.Text = Convert.ToString(temp.Quantity);
+            }
+        }
+
+        private void displayBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var temp = displayBox.SelectedItem;
+            if (temp != null)
+                setSelection(store.Products.GetByName(temp.ToString())[0].Id);
+            else
+                resetSelection();
+            fillInputBoxes();
+        }
+
+        private void showAllButton_Click(object sender, EventArgs e)
+        {
+            displayAll();
+            searchInput.Text = "";
         }
     }
 }

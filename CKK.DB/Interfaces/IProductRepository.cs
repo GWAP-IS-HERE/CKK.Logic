@@ -1,9 +1,15 @@
-﻿using CKK.Logic.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CKK.Logic.Models;
 
 namespace CKK.DB.Interfaces
 {
-    interface IProductRepository : IGenericRepository<Product>
+    public interface IProductRepository : IgenericRepository<Product> 
     {
+        //stores product in a list and gets them by name
         List<Product> GetByName(string name);
     }
 }

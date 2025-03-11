@@ -20,28 +20,29 @@
             logoutButton = new Button();
             searchInput = new TextBox();
             searchButton = new Button();
-            panel1 = new Panel();
-            quantityOutput = new TextBox();
-            priceOutput = new TextBox();
-            nameOutput = new TextBox();
-            quantityOutputLabel = new Label();
-            priceOutputLabel = new Label();
-            nameOutputLabel = new Label();
-            deleteButton = new Button();
-            editButton = new Button();
-            previousButton = new Button();
-            nextButton = new Button();
-            positionIndicator = new Label();
             panel2 = new Panel();
-            addButton = new Button();
+            productIndicator = new Label();
+            productLabel = new Label();
+            deleteButton = new Button();
+            applyButton = new Button();
             quantityInputLabel = new Label();
             priceInputLabel = new Label();
             nameInputLabel = new Label();
             quantityInput = new TextBox();
             priceInput = new TextBox();
             nameInput = new TextBox();
-            panel1.SuspendLayout();
+            deletePanel = new Panel();
+            deleteConfirmButton = new Button();
+            deleteCancelButton = new Button();
+            confirmDeleteLabel = new Label();
+            addButton = new Button();
+            displayBox = new ListBox();
+            inputInvalidPanel = new Panel();
+            inputInvalidLabel = new Label();
+            showAllButton = new Button();
             panel2.SuspendLayout();
+            deletePanel.SuspendLayout();
+            inputInvalidPanel.SuspendLayout();
             SuspendLayout();
             // 
             // logoutButton
@@ -68,125 +69,14 @@
             searchButton.TabIndex = 2;
             searchButton.Text = "search";
             searchButton.UseVisualStyleBackColor = true;
-            // 
-            // panel1
-            // 
-            panel1.Controls.Add(quantityOutput);
-            panel1.Controls.Add(priceOutput);
-            panel1.Controls.Add(nameOutput);
-            panel1.Controls.Add(quantityOutputLabel);
-            panel1.Controls.Add(priceOutputLabel);
-            panel1.Controls.Add(nameOutputLabel);
-            panel1.Controls.Add(deleteButton);
-            panel1.Controls.Add(editButton);
-            panel1.Location = new Point(401, 135);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(283, 219);
-            panel1.TabIndex = 3;
-            // 
-            // quantityOutput
-            // 
-            quantityOutput.Enabled = false;
-            quantityOutput.Location = new Point(81, 127);
-            quantityOutput.Name = "quantityOutput";
-            quantityOutput.Size = new Size(100, 23);
-            quantityOutput.TabIndex = 12;
-            // 
-            // priceOutput
-            // 
-            priceOutput.Enabled = false;
-            priceOutput.Location = new Point(81, 83);
-            priceOutput.Name = "priceOutput";
-            priceOutput.Size = new Size(100, 23);
-            priceOutput.TabIndex = 11;
-            // 
-            // nameOutput
-            // 
-            nameOutput.Enabled = false;
-            nameOutput.Location = new Point(81, 38);
-            nameOutput.Name = "nameOutput";
-            nameOutput.Size = new Size(100, 23);
-            nameOutput.TabIndex = 10;
-            // 
-            // quantityOutputLabel
-            // 
-            quantityOutputLabel.AutoSize = true;
-            quantityOutputLabel.Location = new Point(19, 130);
-            quantityOutputLabel.Name = "quantityOutputLabel";
-            quantityOutputLabel.Size = new Size(56, 15);
-            quantityOutputLabel.TabIndex = 9;
-            quantityOutputLabel.Text = "Quantity:";
-            // 
-            // priceOutputLabel
-            // 
-            priceOutputLabel.AutoSize = true;
-            priceOutputLabel.Location = new Point(39, 86);
-            priceOutputLabel.Name = "priceOutputLabel";
-            priceOutputLabel.Size = new Size(36, 15);
-            priceOutputLabel.TabIndex = 8;
-            priceOutputLabel.Text = "Price:";
-            // 
-            // nameOutputLabel
-            // 
-            nameOutputLabel.AutoSize = true;
-            nameOutputLabel.Location = new Point(33, 41);
-            nameOutputLabel.Name = "nameOutputLabel";
-            nameOutputLabel.Size = new Size(42, 15);
-            nameOutputLabel.TabIndex = 7;
-            nameOutputLabel.Text = "Name:";
-            // 
-            // deleteButton
-            // 
-            deleteButton.Location = new Point(208, 0);
-            deleteButton.Name = "deleteButton";
-            deleteButton.Size = new Size(75, 23);
-            deleteButton.TabIndex = 1;
-            deleteButton.Text = "DELETE";
-            deleteButton.UseVisualStyleBackColor = true;
-            deleteButton.Click += deleteButton_Click;
-            // 
-            // editButton
-            // 
-            editButton.Location = new Point(0, 196);
-            editButton.Name = "editButton";
-            editButton.Size = new Size(75, 23);
-            editButton.TabIndex = 0;
-            editButton.Text = "edit";
-            editButton.UseVisualStyleBackColor = true;
-            editButton.Click += editButton_Click;
-            // 
-            // previousButton
-            // 
-            previousButton.Location = new Point(324, 221);
-            previousButton.Name = "previousButton";
-            previousButton.Size = new Size(71, 43);
-            previousButton.TabIndex = 4;
-            previousButton.Text = "previous";
-            previousButton.UseVisualStyleBackColor = true;
-            previousButton.Click += previousButton_Click;
-            // 
-            // nextButton
-            // 
-            nextButton.Location = new Point(690, 221);
-            nextButton.Name = "nextButton";
-            nextButton.Size = new Size(71, 43);
-            nextButton.TabIndex = 5;
-            nextButton.Text = "next";
-            nextButton.UseVisualStyleBackColor = true;
-            nextButton.Click += nextButton_Click;
-            // 
-            // positionIndicator
-            // 
-            positionIndicator.AutoSize = true;
-            positionIndicator.Location = new Point(538, 117);
-            positionIndicator.Name = "positionIndicator";
-            positionIndicator.Size = new Size(24, 15);
-            positionIndicator.TabIndex = 6;
-            positionIndicator.Text = "0/0";
+            searchButton.Click += searchButton_Click;
             // 
             // panel2
             // 
-            panel2.Controls.Add(addButton);
+            panel2.Controls.Add(productIndicator);
+            panel2.Controls.Add(productLabel);
+            panel2.Controls.Add(deleteButton);
+            panel2.Controls.Add(applyButton);
             panel2.Controls.Add(quantityInputLabel);
             panel2.Controls.Add(priceInputLabel);
             panel2.Controls.Add(nameInputLabel);
@@ -198,15 +88,43 @@
             panel2.Size = new Size(200, 219);
             panel2.TabIndex = 7;
             // 
-            // addButton
+            // productIndicator
             // 
-            addButton.Location = new Point(58, 172);
-            addButton.Name = "addButton";
-            addButton.Size = new Size(75, 23);
-            addButton.TabIndex = 8;
-            addButton.Text = "add";
-            addButton.UseVisualStyleBackColor = true;
-            addButton.Click += addButton_Click;
+            productIndicator.AutoSize = true;
+            productIndicator.Location = new Point(95, 9);
+            productIndicator.Name = "productIndicator";
+            productIndicator.Size = new Size(25, 15);
+            productIndicator.TabIndex = 14;
+            productIndicator.Text = "n/a";
+            // 
+            // productLabel
+            // 
+            productLabel.AutoSize = true;
+            productLabel.Location = new Point(23, 9);
+            productLabel.Name = "productLabel";
+            productLabel.Size = new Size(66, 15);
+            productLabel.TabIndex = 8;
+            productLabel.Text = "Product ID:";
+            // 
+            // deleteButton
+            // 
+            deleteButton.Location = new Point(104, 171);
+            deleteButton.Name = "deleteButton";
+            deleteButton.Size = new Size(75, 23);
+            deleteButton.TabIndex = 9;
+            deleteButton.Text = "delete";
+            deleteButton.UseVisualStyleBackColor = true;
+            deleteButton.Click += deleteButton_Click;
+            // 
+            // applyButton
+            // 
+            applyButton.Location = new Point(23, 171);
+            applyButton.Name = "applyButton";
+            applyButton.Size = new Size(75, 23);
+            applyButton.TabIndex = 8;
+            applyButton.Text = "apply";
+            applyButton.UseVisualStyleBackColor = true;
+            applyButton.Click += applyButton_Click;
             // 
             // quantityInputLabel
             // 
@@ -256,26 +174,120 @@
             nameInput.Size = new Size(100, 23);
             nameInput.TabIndex = 11;
             // 
+            // deletePanel
+            // 
+            deletePanel.BackColor = Color.MistyRose;
+            deletePanel.Controls.Add(deleteConfirmButton);
+            deletePanel.Controls.Add(deleteCancelButton);
+            deletePanel.Controls.Add(confirmDeleteLabel);
+            deletePanel.Location = new Point(22, 376);
+            deletePanel.Name = "deletePanel";
+            deletePanel.Size = new Size(200, 62);
+            deletePanel.TabIndex = 8;
+            deletePanel.Visible = false;
+            // 
+            // deleteConfirmButton
+            // 
+            deleteConfirmButton.BackColor = Color.LightCoral;
+            deleteConfirmButton.Location = new Point(104, 28);
+            deleteConfirmButton.Name = "deleteConfirmButton";
+            deleteConfirmButton.Size = new Size(75, 23);
+            deleteConfirmButton.TabIndex = 9;
+            deleteConfirmButton.Text = "delete";
+            deleteConfirmButton.UseVisualStyleBackColor = false;
+            deleteConfirmButton.Click += deleteConfirmButton_Click;
+            // 
+            // deleteCancelButton
+            // 
+            deleteCancelButton.Location = new Point(23, 28);
+            deleteCancelButton.Name = "deleteCancelButton";
+            deleteCancelButton.Size = new Size(75, 23);
+            deleteCancelButton.TabIndex = 1;
+            deleteCancelButton.Text = "cancel";
+            deleteCancelButton.UseVisualStyleBackColor = true;
+            deleteCancelButton.Click += deleteCancelButton_Click;
+            // 
+            // confirmDeleteLabel
+            // 
+            confirmDeleteLabel.AutoSize = true;
+            confirmDeleteLabel.Location = new Point(9, 10);
+            confirmDeleteLabel.Name = "confirmDeleteLabel";
+            confirmDeleteLabel.Size = new Size(179, 15);
+            confirmDeleteLabel.TabIndex = 0;
+            confirmDeleteLabel.Text = "Are you sure you want to delete?";
+            // 
+            // addButton
+            // 
+            addButton.Location = new Point(81, 106);
+            addButton.Name = "addButton";
+            addButton.Size = new Size(75, 23);
+            addButton.TabIndex = 10;
+            addButton.Text = "add";
+            addButton.UseVisualStyleBackColor = true;
+            addButton.Click += addButton_Click;
+            // 
+            // displayBox
+            // 
+            displayBox.FormattingEnabled = true;
+            displayBox.ItemHeight = 15;
+            displayBox.Location = new Point(242, 106);
+            displayBox.Name = "displayBox";
+            displayBox.Size = new Size(546, 334);
+            displayBox.TabIndex = 11;
+            displayBox.SelectedIndexChanged += displayBox_SelectedIndexChanged;
+            // 
+            // inputInvalidPanel
+            // 
+            inputInvalidPanel.BackColor = Color.MistyRose;
+            inputInvalidPanel.Controls.Add(inputInvalidLabel);
+            inputInvalidPanel.Location = new Point(95, 12);
+            inputInvalidPanel.Name = "inputInvalidPanel";
+            inputInvalidPanel.Size = new Size(141, 72);
+            inputInvalidPanel.TabIndex = 12;
+            inputInvalidPanel.Visible = false;
+            // 
+            // inputInvalidLabel
+            // 
+            inputInvalidLabel.AutoSize = true;
+            inputInvalidLabel.Location = new Point(28, 29);
+            inputInvalidLabel.Name = "inputInvalidLabel";
+            inputInvalidLabel.Size = new Size(87, 15);
+            inputInvalidLabel.TabIndex = 0;
+            inputInvalidLabel.Text = "Input not valid!";
+            // 
+            // showAllButton
+            // 
+            showAllButton.Location = new Point(474, 61);
+            showAllButton.Name = "showAllButton";
+            showAllButton.Size = new Size(75, 23);
+            showAllButton.TabIndex = 13;
+            showAllButton.Text = "Show All";
+            showAllButton.UseVisualStyleBackColor = true;
+            showAllButton.Click += showAllButton_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(showAllButton);
+            Controls.Add(inputInvalidPanel);
+            Controls.Add(displayBox);
+            Controls.Add(addButton);
+            Controls.Add(deletePanel);
             Controls.Add(panel2);
-            Controls.Add(positionIndicator);
-            Controls.Add(nextButton);
-            Controls.Add(previousButton);
-            Controls.Add(panel1);
             Controls.Add(searchButton);
             Controls.Add(searchInput);
             Controls.Add(logoutButton);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            deletePanel.ResumeLayout(false);
+            deletePanel.PerformLayout();
+            inputInvalidPanel.ResumeLayout(false);
+            inputInvalidPanel.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -285,10 +297,9 @@
         private Button logoutButton;
         private TextBox searchInput;
         private Button searchButton;
-        private Panel panel1;
+        private Panel deletePanel;
         private Button previousButton;
         private Button nextButton;
-        private Button deleteButton;
         private Button editButton;
         private Label positionIndicator;
         private TextBox quantityOutput;
@@ -298,12 +309,23 @@
         private Label priceOutputLabel;
         private Label nameOutputLabel;
         private Panel panel2;
-        private Button addButton;
+        private Button applyButton;
         private Label quantityInputLabel;
         private Label priceInputLabel;
         private Label nameInputLabel;
         private TextBox quantityInput;
         private TextBox priceInput;
         private TextBox nameInput;
+        private Button deleteButton;
+        private Label productLabel;
+        private Label productIndicator;
+        private Label confirmDeleteLabel;
+        private Button deleteConfirmButton;
+        private Button deleteCancelButton;
+        private Button addButton;
+        private ListBox displayBox;
+        private Panel inputInvalidPanel;
+        private Label inputInvalidLabel;
+        private Button showAllButton;
     }
 }

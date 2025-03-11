@@ -3,8 +3,7 @@ using CKK.Logic.Exceptions;
 
 namespace CKK.Logic.Models
 {
-    [Serializable]
-    public class ShoppingCartItem : InventoryItem
+    public class ShoppingCartItem
     {
         public Product Product { get; set; }
         public int ShoppingCartId { get; set; }
