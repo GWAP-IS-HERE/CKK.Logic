@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CKK.Persistance", "CKK.Pers
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CKK.DB", "CKK.DB\CKK.DB.csproj", "{2389E632-0601-47F7-A2E9-30B7EAEB9D6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CKK.Web", "CKK.Web\CKK.Web.csproj", "{93B350B0-3747-4859-86DC-CB253D9BBEC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{2389E632-0601-47F7-A2E9-30B7EAEB9D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2389E632-0601-47F7-A2E9-30B7EAEB9D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2389E632-0601-47F7-A2E9-30B7EAEB9D6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93B350B0-3747-4859-86DC-CB253D9BBEC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93B350B0-3747-4859-86DC-CB253D9BBEC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93B350B0-3747-4859-86DC-CB253D9BBEC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93B350B0-3747-4859-86DC-CB253D9BBEC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
