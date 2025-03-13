@@ -21,7 +21,7 @@ namespace CKK.DB.UOW
         public IProductRepository Products { get; private set; }
         public IOrderRepository Orders { get; private set; }
 
-        public IShoppingCartRepository ShoppingCarts { get; set; }
+        public IShoppingCartRepository ShoppingCarts { get; private set; }
 
     }
 }

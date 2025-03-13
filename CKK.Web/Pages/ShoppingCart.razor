@@ -13,11 +13,11 @@
 else
 {
 	<div class="Text-center">
-		<h1 class="display-4">Shopping Cart!</h1>
+		<h1 class="display-4">Welcome to the online store for Corey's Knick Knacks!</h1>
 	</div>
 	<form method="get">
 		<input type="hidden" value="@order.OrderId" />
-		<p>The Number selectors will add your items to the shopping cart.</p>
+		<p>Feel free to order as much (or as little) as you'd like!</p>
 		<div class="row">
 			@foreach (var item in uow.Products.GetAll())
 			{
@@ -34,7 +34,6 @@ else
 				</div>
 			}
 		</div>
-		<p>The CheckOut button removes inventory based on your shopping cart and deletes your order and shopping cart.</p>
 	</form>
 	<span style="font-size: 1.5em;">@checkoutTotal</span><br/>
 	<a id="CheckoutBtn" @onclick="CheckOut" class="btn btn-success btn-lg btn-block">Checkout</a>

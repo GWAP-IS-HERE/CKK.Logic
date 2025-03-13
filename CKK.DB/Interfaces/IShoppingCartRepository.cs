@@ -10,7 +10,7 @@ namespace CKK.DB.Interfaces
     public interface IShoppingCartRepository
     {
         //adding item to shopping cart 
-        ShoppingCartItem AddToCart(int SHoppingCardId, int ProductId, int quantity);
+        ShoppingCartItem AddToCart(int ShoppingCartId, int ProductId, int quantity);
         //clearing the shopping cart
         int ClearCart(int shoppingCartId);
         //getting the total of the shopping cart

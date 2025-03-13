@@ -1,6 +1,4 @@
-﻿using CKK.Logic.Interfaces;
-
-namespace CKK.Logic.Models
+﻿namespace CKK.Logic.Models
 {
     public class Customer
     {

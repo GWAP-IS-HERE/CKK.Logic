@@ -7,7 +7,7 @@ using CKK.Logic.Models;
 
 namespace CKK.DB.Interfaces
 {
-    public interface IProductRepository : IgenericRepository<Product> 
+    public interface IProductRepository : IGenericRepository<Product> 
     {
         //stores product in a list and gets them by name
         List<Product> GetByName(string name);

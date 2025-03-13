@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CKK.DB.Interfaces
 {
-    public interface IgenericRepository<T> where T : class
+    public interface IGenericRepository<T> where T : class
     {
         //Gets Object by id
         T GetById(int id);

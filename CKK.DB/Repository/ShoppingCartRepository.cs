@@ -30,19 +30,19 @@ namespace CKK.DB.Repository
             }
         }
 
-        public ShoppingCartItem AddToCart(int ShoppingCardId, int ProductId, int quantity) //add an item to the cart that has the given an id and product id (if any), and updates its quantity or adds a new ShoppingCartItem
+        public ShoppingCartItem AddToCart(int ShoppingCartId, int ProductId, int quantity) //add an item to the cart that has the given an id and product id (if any), and updates its quantity or adds a new ShoppingCartItem
         {
             using(var conn = _connectionFactory.GetConnection)
             {
                 ProductRepository _productRepository = new ProductRepository(_connectionFactory);
                 var item = _productRepository.GetById(ProductId);
-                //creating productitems variable then we are finding products by shoppingCardId then we find product by its id and set it to ProductId
-                var ProductItems = GetProducts(ShoppingCardId).Find(x => x.ProductId == ProductId);
+                //creating productitems variable then we are finding products by ShoppingCartId then we find product by its id and set it to ProductId
+                var ProductItems = GetProducts(ShoppingCartId).Find(x => x.ProductId == ProductId);
 
                 //creates a new object of ShoppingCartItem called shopitem and settings its values equal to the ones in the methods paramaters
                 var shopitem = new ShoppingCartItem()
                 {
-                    ShoppingCartId = ShoppingCardId,
+                    ShoppingCartId = ShoppingCartId,
                     ProductId = ProductId,
                     Quantity = quantity
                 };
